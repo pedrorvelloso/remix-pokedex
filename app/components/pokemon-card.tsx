@@ -17,7 +17,7 @@ const PokemonCard = ({ name, id, type, image }: PokemonCardProps) => {
     >
       <img src={image} alt={`${name}`} className="w-28 h-28" />
       <p>
-        {name} #{id}
+        {name} - #{id}
       </p>
     </div>
   )
