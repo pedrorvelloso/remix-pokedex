@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction } from 'remix'
+import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
 import {
   Meta,
   Links,
@@ -10,6 +10,7 @@ import {
 import { Outlet } from 'react-router-dom'
 
 import tailwindStyles from './styles/tailwind.css'
+import noScriptStyles from './styles/no-script.css'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStyles }]
@@ -17,6 +18,12 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async () => {
   return { date: new Date() }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    viewport: 'width=device-width,initial-scale=1,viewport-fit=cover',
+  }
 }
 
 function Document({
@@ -34,6 +41,9 @@ function Document({
         {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
+        <noscript>
+          <link rel="stylesheet" href={noScriptStyles} />
+        </noscript>
       </head>
       <body>
         {children}

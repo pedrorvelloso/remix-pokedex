@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { MetaFunction, LoaderFunction, HeadersFunction } from 'remix'
 import { useLoaderData, json } from 'remix'
+import { motion } from 'framer-motion'
+
 import PokemonCard from '~/components/pokemon-card'
 
 import pokedex from '~/pokedex/pokemons.json'
@@ -12,8 +14,6 @@ export const meta: MetaFunction = () => {
   }
 }
 
-type Pokedex = typeof pokedex
-
 type LoaderData = {
   name: string
   image: string
@@ -22,7 +22,6 @@ type LoaderData = {
 }[]
 
 export const loader: LoaderFunction = async () => {
-  console.log('hit')
   const pkdex = pokedex
 
   const pokemons = pkdex.map((pkm) => {
@@ -49,6 +48,13 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 const PAGE_SIZE = 12
 const initialIndexToShow = PAGE_SIZE
 
+const variants = {
+  visible: {
+    opacity: 1,
+  },
+  hidden: { opacity: 0 },
+}
+
 const Index = () => {
   const data = useLoaderData<LoaderData>()
   const [indexToShow, setIndexToShow] = useState(initialIndexToShow)
@@ -57,16 +63,28 @@ const Index = () => {
 
   return (
     <div className="p-5 max-w-5xl mx-auto">
-      <div className="grid justify-items-center grid-cols-4 gap-4">
-        {pokemons.map((pkm) => (
-          <PokemonCard
-            key={pkm.name}
-            id={pkm.id}
-            type={pkm.type}
-            name={pkm.name}
-            image={pkm.image}
-          />
-        ))}
+      <div className="grid justify-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-10 mb-5">
+        {pokemons.map((pkm, i) => {
+          return (
+            <motion.div
+              className="w-full"
+              animate="visible"
+              initial="hidden"
+              transition={{
+                delay: Math.abs(indexToShow - PAGE_SIZE - i) * 0.1,
+              }}
+              variants={variants}
+              key={pkm.name}
+            >
+              <PokemonCard
+                id={pkm.id}
+                type={pkm.type}
+                name={pkm.name}
+                image={pkm.image}
+              />
+            </motion.div>
+          )
+        })}
       </div>
 
       <button
