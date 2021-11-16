@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { LoaderFunction, useLoaderData, json } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { useLoaderData, json } from 'remix'
 import { AnimatePresence, motion } from 'framer-motion'
 import clsx from 'clsx'
 
@@ -12,6 +13,12 @@ type LoaderData = {
   spriteMobile: string
   id: number
   description: string
+}
+
+export const meta: MetaFunction = ({ data }) => {
+  return {
+    title: `${data.name.toUpperCase()} - Pokedex`,
+  }
 }
 
 export const loader: LoaderFunction = async ({ params }) => {

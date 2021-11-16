@@ -47,7 +47,11 @@ const NumberBadge: React.FC<NumberBadgeProps> = ({ type, children }) => (
 const PokemonCard = ({ name, id, type, image }: PokemonCardProps) => {
   return (
     <Link
-      to={`/${name.replace('♂', '').replace('♀', '-F').toLowerCase()}`}
+      to={`/${name
+        .replace('♂', '')
+        .replace('♀', '-F')
+        .replace(' ', '-')
+        .toLowerCase()}`}
       className={clsx(
         'border border-solid shadow-md rounded-lg p-5 w-full h-48 flex flex-col items-center justify-center relative select-none',
         {

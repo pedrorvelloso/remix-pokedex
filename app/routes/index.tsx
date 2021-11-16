@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { MetaFunction, LoaderFunction, HeadersFunction } from 'remix'
 import { useLoaderData, json } from 'remix'
 import { motion } from 'framer-motion'
+import { debounce } from 'debounce'
 
 import PokemonCard from '~/components/pokemon-card'
 
@@ -9,8 +10,7 @@ import pokedex from '~/pokedex/pokemons.json'
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Remix Starter',
-    description: 'Welcome to remix!',
+    title: 'Pokedex - Remix',
   }
 }
 
@@ -58,11 +58,34 @@ const variants = {
 const Index = () => {
   const data = useLoaderData<LoaderData>()
   const [indexToShow, setIndexToShow] = useState(initialIndexToShow)
+  const [search, setSearch] = useState('')
 
-  const pokemons = data.slice(0, indexToShow)
+  const handleSearch = debounce((input: string) => {
+    setIndexToShow(initialIndexToShow)
+    setSearch(input)
+  }, 400)
+
+  const pokemonSearch = data.filter((pkm) =>
+    pkm.name.toLowerCase().includes(search),
+  )
+
+  const pokemons = search
+    ? pokemonSearch.slice(0, indexToShow)
+    : data.slice(0, indexToShow)
+
+  const hasMorePkm = search
+    ? indexToShow < pokemonSearch.length
+    : indexToShow < data.length - 1
 
   return (
     <div className="p-5 max-w-5xl mx-auto">
+      <input
+        type="text"
+        onChange={(e) => {
+          handleSearch(e.target.value)
+        }}
+        className="border border-solid border-black"
+      />
       <div className="grid justify-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-10 mb-5">
         {pokemons.map((pkm, i) => {
           return (
@@ -87,12 +110,14 @@ const Index = () => {
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={() => setIndexToShow((i) => i + PAGE_SIZE)}
-      >
-        Show more
-      </button>
+      {hasMorePkm && (
+        <button
+          type="button"
+          onClick={() => setIndexToShow((i) => i + PAGE_SIZE)}
+        >
+          Show more
+        </button>
+      )}
     </div>
   )
 }
