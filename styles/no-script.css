@@ -2,3 +2,7 @@
   opacity: unset !important;
   transform: unset !important;
 }
+
+.noscript-hidden {
+  display: none !important;
+}

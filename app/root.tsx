@@ -1,23 +1,21 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
+import type { LinksFunction, MetaFunction } from 'remix'
 import {
   Meta,
   Links,
   Scripts,
-  useLoaderData,
   LiveReload,
   useCatch,
+  useTransition,
 } from 'remix'
 import { Outlet } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useSpinDelay } from 'spin-delay'
 
 import tailwindStyles from './styles/tailwind.css'
 import noScriptStyles from './styles/no-script.css'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStyles }]
-}
-
-export const loader: LoaderFunction = async () => {
-  return { date: new Date() }
 }
 
 export const meta: MetaFunction = () => {
@@ -54,15 +52,44 @@ function Document({
   )
 }
 
-export default function App() {
-  const data = useLoaderData()
+function PageLoading() {
+  const transition = useTransition()
+  const showLoader = useSpinDelay(Boolean(transition.state !== 'idle'), {
+    delay: 400,
+    minDuration: 1000,
+  })
 
   return (
+    <AnimatePresence>
+      {showLoader && (
+        <motion.div
+          initial={{ opacity: 0, x: 99 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 99 }}
+          transition={{
+            staggerChildren: 0.8,
+            ease: 'easeInOut',
+            duration: 0.3,
+          }}
+          className="fixed bottom-2 right-2 overflow-hidden z-50"
+        >
+          <motion.img
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 0.8 }}
+            src="/images/masterball.png"
+            alt="Masterball"
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+export default function App() {
+  return (
     <Document>
+      <PageLoading />
       <Outlet />
-      <footer>
-        <p>This page was rendered at {data.date.toLocaleString()}</p>
-      </footer>
     </Document>
   )
 }

@@ -4551,6 +4551,11 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.10.tgz#0d9becccde7003d6c658d487dd48a32f0bf3014b"
   integrity sha512-oie3/+gKf7QtpitB0LYLETe+k8SifzsX4KixvpOsbI6S0kRiRQ5MKOio8eMSAKQ17N06+wdEOXRiId+zOxo0hA==
 
+spin-delay@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/spin-delay/-/spin-delay-1.1.0.tgz#23ba299e66f8cc42df764907494d0400ed456319"
+  integrity sha512-sYq8OXe5jUgcbX5VReeW8IzF2jEx5fpatGreQQDlDVLTC3rA3tZIr7SGv0leCBYccRDES0ybjQaGS1bR42M0uQ==
+
 ssri@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/ssri/-/ssri-8.0.1.tgz#638e4e439e2ffbd2cd289776d5ca457c4f51a2af"

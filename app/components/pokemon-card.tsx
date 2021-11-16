@@ -1,4 +1,6 @@
 import clsx from 'clsx'
+import { Link } from 'remix'
+
 import IconType from '~/components/icon-type'
 
 interface PokemonCardProps {
@@ -44,9 +46,10 @@ const NumberBadge: React.FC<NumberBadgeProps> = ({ type, children }) => (
 
 const PokemonCard = ({ name, id, type, image }: PokemonCardProps) => {
   return (
-    <div
+    <Link
+      to={`/${name.replace('♂', '').replace('♀', '-F').toLowerCase()}`}
       className={clsx(
-        'border border-solid shadow-md rounded-lg p-5 w-full h-48 flex flex-col items-center justify-center relative',
+        'border border-solid shadow-md rounded-lg p-5 w-full h-48 flex flex-col items-center justify-center relative select-none',
         {
           'border-normal': type[0] === 'Normal',
           'border-fire': type[0] === 'Fire',
@@ -77,7 +80,7 @@ const PokemonCard = ({ name, id, type, image }: PokemonCardProps) => {
           <IconType type={t} key={i.toString()} />
         ))}
       </div>
-    </div>
+    </Link>
   )
 }
 

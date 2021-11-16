@@ -25,6 +25,15 @@ module.exports = {
         steel: '#B7B7CE',
         fairy: '#D685AD',
       },
+      width: {
+        'pokemon-card': '660px',
+      },
+      boxShadow: {
+        4: 'rgb(0 0 0 / 20%) 4px 4px 4px',
+      },
+      fontSize: {
+        '16xl': '16rem',
+      },
     },
   },
   variants: {},
