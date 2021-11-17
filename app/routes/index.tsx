@@ -66,7 +66,7 @@ const Index = () => {
   }, 400)
 
   const pokemonSearch = data.filter((pkm) =>
-    pkm.name.toLowerCase().includes(search),
+    pkm.name.toLowerCase().includes(search.toLowerCase()),
   )
 
   const pokemons = search
